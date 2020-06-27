@@ -8,6 +8,7 @@ import SideBar from './SideBar/SideBar'
 import PostDetail from './posts/detail/PostDetail';
 import CreatePost from './posts/create/CreatePost';
 import Posts from './posts/list/Posts';
+import NavBar from './commons/AppBar';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,6 +25,8 @@ const App = _ => {
 	const classes = useStyles();
 
 	return (
+		<>
+		<NavBar />
 		<Grid className={classes.root}>
 			<Grid item >
 				<SideBar />
@@ -44,6 +47,7 @@ const App = _ => {
 					</Switch>
 			</Grid>
 		</Grid>
+		</>
 	);
 }
 
