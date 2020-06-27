@@ -27,7 +27,9 @@ const CreatePost = props => {
     const classes = useStyles();
     const [userId, setUserId] = useState(2);
     const [title, setTitle] = useState("");
+    const [titleTouched, setTitleTouched] = useState(false);
     const [body, setBody] = useState("");
+    const [bodyTouched, setBodyTouched] = useState(false);
     const [alertIsOpen, setAlertIsOpen] = React.useState(false);
     const createPostState = useSelector(state => state.createPostState);
     const dispatch = useDispatch();
@@ -42,7 +44,9 @@ const CreatePost = props => {
 
     const resetFormHandler = _ => {
         setTitle("");
+        setTitleTouched(false);
         setBody("");
+        setBodyTouched(false);
     }
 
     const showAlert = _ => {
@@ -56,6 +60,21 @@ const CreatePost = props => {
             title,
             body
         }, resetFormHandler, showAlert));
+    }
+
+    const inputChageHandle = event => {
+        switch(event.target.id){
+            case "title":
+                setTitle(event.target.value);
+                setTitleTouched(true);
+                break;
+            case "body":
+                setBody(event.target.value);
+                setBodyTouched(true);
+                break;
+            default:
+                break;
+        }
     }
 
     return (
@@ -85,7 +104,9 @@ const CreatePost = props => {
                                     label="Título"
                                     variant="outlined"
                                     value={title}
-                                    onChange={e => setTitle(e.target.value)}
+                                    error={!title && titleTouched ? true : false}
+                                    helperText = {!title && titleTouched? "Este campo es requerido" : null }
+                                    onChange={e => inputChageHandle(e)}
                                     className={classes.input} />
                             </div>
                             <div>
@@ -96,13 +117,16 @@ const CreatePost = props => {
                                     rows={4}
                                     className={classes.input}
                                     value={body}
-                                    onChange={e => setBody(e.target.value)}
+                                    error={!body && bodyTouched ? true : false}
+                                    helperText = {!body && bodyTouched? "Este campo es requerido" : null }
+                                    onChange={e => inputChageHandle(e)}
                                     variant="outlined" />
                             </div>
                             <div>
                                 <Button
                                     variant="contained"
                                     type="submit"
+                                    disabled={!title || !body}
                                     color="primary">
                                     Crear
                                 </Button>
