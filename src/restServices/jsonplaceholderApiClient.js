@@ -8,6 +8,12 @@ export const getPosts = _ => {
     return axios.get( baseUrlApi + path);
 }
 
+export const getPost = id => {
+    const path = `posts/${id}`;
+
+    return axios.get( baseUrlApi + path);
+}
+
 export const createPost = newPost => {
     const path = 'posts';
 
