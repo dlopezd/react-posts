@@ -3,7 +3,7 @@ import * as ActionTypes from './ActionTypes';
 const initialState =  {
     isLoading: true,
     errMess: null,
-    posts: []
+    posts: undefined
 };
 
 export const PostsState = (state = initialState, action) => {

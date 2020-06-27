@@ -10,8 +10,8 @@ const PostDetail = props => {
 
     return (
         <Grid container>
-            <Typography variant="h4" gutterBottom>
-                {post.title.toUpperCase()}
+            <Typography variant="h5" gutterBottom>
+                <strong>{post.title}</strong>
             </Typography>
             <Typography variant="body1" gutterBottom>
                 {post.body}

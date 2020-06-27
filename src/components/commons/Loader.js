@@ -2,6 +2,8 @@
 // fuente: https://codepen.io/keegnn/pen/qdvYJb
 import React from 'react'
 
+import './Loader.css'
+
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
