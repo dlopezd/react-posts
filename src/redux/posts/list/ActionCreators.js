@@ -1,5 +1,5 @@
 import * as ActionTypes from './ActionTypes';
-import * as client from '../../restServices/jsonplaceholderApiClient'
+import * as client from '../../../restServices/jsonplaceholderApiClient'
 
 export const fetchPosts = () => (dispatch) => {
 

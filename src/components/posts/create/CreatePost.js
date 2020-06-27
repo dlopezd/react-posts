@@ -1,7 +1,115 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { createPost } from '../../../redux/posts/create/ActionCreators'
+import Loader from '../../commons/Loader';
+import Error from '../../commons/Error';
+
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import { makeStyles } from '@material-ui/core/styles';
+
+const Alert = props => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+
+const useStyles = makeStyles((theme) => ({
+    input: {
+        marginBottom: 20,
+        width: 500
+    },
+}));
 
 const CreatePost = props => {
-    return (<div>formulario</div>);
+    const classes = useStyles();
+    const [userId, setUserId] = useState(2);
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+    const [alertIsOpen, setAlertIsOpen] = React.useState(false);
+    const createPostState = useSelector(state => state.createPostState);
+    const dispatch = useDispatch();
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setAlertIsOpen(false);
+    };
+
+    const resetFormHandler = _ => {
+        setTitle("");
+        setBody("");
+    }
+
+    const showAlert = _ => {
+        setAlertIsOpen(true);
+    }
+
+    const submitHandler = (event) => {
+        event.preventDefault();
+        dispatch(createPost({
+            userId,
+            title,
+            body
+        }, resetFormHandler, showAlert));
+    }
+
+    return (
+        createPostState.isLoading ? <Loader /> :
+            createPostState.errMess ? <Error msg="Error al crear el post" /> :
+                (
+                    <>
+                        <Snackbar open={alertIsOpen} autoHideDuration={2000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="success">
+                                El post fue creado con éxito.
+                            </Alert>
+                        </Snackbar>
+
+                        <form onSubmit={(event) => submitHandler(event)}>
+                            <div>
+                                <TextField
+                                    id="userId"
+                                    type="hidden"
+                                    value={userId}
+                                    variant="outlined"
+                                    className={classes.input}
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    id="title"
+                                    label="Título"
+                                    variant="outlined"
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)}
+                                    className={classes.input} />
+                            </div>
+                            <div>
+                                <TextField
+                                    id="body"
+                                    label="Cuerpo"
+                                    multiline
+                                    rows={4}
+                                    className={classes.input}
+                                    value={body}
+                                    onChange={e => setBody(e.target.value)}
+                                    variant="outlined" />
+                            </div>
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    type="submit"
+                                    color="primary">
+                                    Crear
+                                </Button>
+                            </div>
+                        </form>
+                    </>
+                ));
 }
 
 export default CreatePost;

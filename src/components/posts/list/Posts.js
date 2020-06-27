@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { fetchPosts } from '../../../redux/posts/ActionCreators'
+import { fetchPosts } from '../../../redux/posts/list/ActionCreators'
 import Loader from '../../commons/Loader'
 import Error from '../../commons/Error'
 import PostItem from './PostItem'
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     item: {
         height: 'wrap',
         margin: 10,
-        width:300
+        width:500
     }
 });
 
@@ -38,7 +38,7 @@ const Posts = props => {
 
     return (
         postsState.isLoading ? <Loader /> :
-            postsState.ErrMess ? <Error msg="Error al cargar información" /> :
+            postsState.errMess ? <Error msg="Error al cargar información" /> :
                 <Grid container className={classes.container}>
                     {
                         postsState.posts.slice(0, 15).map(post => {
